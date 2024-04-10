@@ -160,7 +160,7 @@ fn main() -> anyhow::Result<()> {
 
             writeln!(
                 bashrc,
-                "\nexport $PATH=\"$PATH:{home}/.local/share/darling/source/target/release\""
+                "\nexport PATH=\"$PATH:{home}/.local/share/darling/source/target/release\""
             )?;
 
             // Build the source
