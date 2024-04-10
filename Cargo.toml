@@ -1,0 +1,21 @@
+[package]
+name = "darling-installer"
+authors = ["Violet Iapalucci"]
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "install-darling"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1.0.82"
+colored = "2.1.0"
+convert_case = "0.6.0"
+regex-macro = "0.2.0"
+which = "6.0.1"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
