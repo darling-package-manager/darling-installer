@@ -140,7 +140,7 @@ fn main() -> anyhow::Result<()> {
         std::io::stdout().flush()?;
         if user_confirmed()? {
             let home = std::env::var("HOME")?;
-            let working_directory = home.clone() + "/tmp/darling";
+            let working_directory = home.clone() + "/.tmp/darling";
             std::fs::create_dir_all(working_directory.clone())?;
             std::fs::create_dir_all(home.clone() + "/.local/share/darling")?;
             std::process::Command::new("git")
