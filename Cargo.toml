@@ -5,6 +5,7 @@ version = "0.1.2"
 edition = "2021"
 description = "A CLI installer tool for darling."
 license = "MIT"
+readme = "README.md"
 
 [[bin]]
 name = "install-darling"
