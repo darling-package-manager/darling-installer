@@ -92,7 +92,7 @@ fn main() -> anyhow::Result<()> {
             print!(
                 "{}.\nDo you wish to install this module? (Y/n): ",
                 format!(
-                    "There exists an implementation of darling for {distro_name} Linux's package manager."
+                    "There exists an implementation of darling for {distro_name} Linux's package manager"
                 ).green().bold()
             );
             std::io::stdout().flush()?;
@@ -110,20 +110,58 @@ fn main() -> anyhow::Result<()> {
             commands: &["code", "codium"],
         }];
 
+        println!("\n{} for applicable modules...", "Scanning".green().bold());
+
+        let mut applicable_modules = Vec::new();
+
         for module in modules {
             if module
                 .commands
                 .iter()
                 .any(|command| which::which(command).is_ok())
             {
-                print!("It looks like you have {} installed, which has a supported `darling` module. Install it? (Y/n): ", module.readable_name.cyan().bold());
-                std::io::stdout().flush()?;
-                if user_confirmed()? {
-                    installation
-                        .modules
-                        .push((module.readable_name.to_owned(), module.name.to_owned()));
-                }
+                applicable_modules.push(module);
             }
+        }
+
+        println!(
+            "Based on applications you have installed, there {} {} module{} you may find useful.",
+            if applicable_modules.len() == 1 {
+                "is"
+            } else {
+                "are"
+            },
+            applicable_modules.len().to_string().cyan().bold(),
+            if applicable_modules.len() == 1 {
+                "s"
+            } else {
+                ""
+            }
+        );
+        println!(
+            "Please select the modules you'd like to install (you can change this at any time):"
+        );
+
+        let choices = dialoguer::MultiSelect::new()
+            .items(
+                &applicable_modules
+                    .iter()
+                    .map(|module| {
+                        format!(
+                            "{} {}",
+                            module.readable_name.cyan().bold(),
+                            format!("({})", module.name).truecolor(150, 150, 150)
+                        )
+                    })
+                    .collect::<Vec<_>>(),
+            )
+            .interact()?;
+
+        for choice in choices {
+            let display = &applicable_modules[choice];
+            installation
+                .modules
+                .push((display.readable_name.to_owned(), display.name.to_owned()));
         }
 
         println!();
