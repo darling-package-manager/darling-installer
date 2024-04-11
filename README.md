@@ -12,3 +12,5 @@ The darling installer will automatically place the darling source in the proper 
 cargo install darling-installer
 install-darling
 ```
+
+First, the installer will attempt to identify your OS, and if there is a known module associated with it, it will ask if you want to install it. Then, it will scan for applications on your system that have known darling modules, and allow you to choose which of these to install as well. Any of these can be installed or reinstalled later. 
